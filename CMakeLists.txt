@@ -1,27 +1,29 @@
 cmake_minimum_required(VERSION 3.16)
-project(flight_control_sim CXX)
+project(flight_control_sim LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# ---- simulation executable ----
 add_executable(sim
     src/app/main.cpp
+    src/sim/PhysicsModel.cpp
+    src/domain/PIDController.cpp
+    src/domain/AltitudeController.cpp
 )
-
 target_include_directories(sim PRIVATE src)
 
+# ---- tests ----
 include(FetchContent)
 FetchContent_Declare(
     googletest
-    GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG        v1.18.0
+    URL https://github.com/google/googletest/archive/refs/tags/v1.18.0.zip
 )
-# Windows/MSVC: makes gtest use the same runtime library as your code
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 enable_testing()
-
 add_executable(tests
     tests/test_pid.cpp
     src/domain/PIDController.cpp

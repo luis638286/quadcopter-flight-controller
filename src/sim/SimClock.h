@@ -2,11 +2,11 @@
 #include <cstdint>
 #include "hal/IClock.h"
 
-// simulated time source, advanced manually by the simulation loop,
-// so a run is deterministic and not tied toa wall clock speed 
+// Simulated time source, advanced manually by the simulation loop,
+// so a run is deterministic and not tied to wall-clock speed.
 class SimClock : public IClock {
 public:
-    uint64_t nowMicros() const override { return now_; }
+    uint64_t now_micros() const override { return now_; }
 
     void advance(uint64_t micros) { now_ += micros; }
 
